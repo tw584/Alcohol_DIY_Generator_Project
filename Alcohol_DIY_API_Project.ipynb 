@@ -1,0 +1,224 @@
+import requests
+import ipywidgets as w
+import random
+from IPython import display as disp
+
+
+glass_description = w.Label('Pick the glass type you want:')
+glass = w.Dropdown(
+    options = ['Cocktail glass','Collins glass','Old-fashioned glass','Margarita glass','Highball glass','Coffee mug'],
+    disabled = False,
+)
+
+alcoholic_description = w.Label('Pick the alcoholic type you want:')
+alcoholic = w.Dropdown(
+    options = ['Alcoholic','Non Alcoholic'],
+    disabled = False,
+)
+instruction_tab1 = w.Label("Keep clicking the button until getting a satisfying result!")
+
+ingredient_description = w.Label('Pick your desired ingredient:')
+total_ingredients = w.Dropdown(options=['Light rum', 'Gin', "Water", "Dark rum", "Scotch", "Brandy", "Champagne", "Coffee", "Bourbon",
+"Kahlua", "Grenadine", "Coffee liqueur", "Tequila", "Vodka", "Bitters", "Apple brandy", "Rum", "Milk",'7-Up', "Grapefruit juice", "Sprite", "Cider",
+"Lemonade", "Lemon", "Egg", "Grape juice", "Cranberry juice", "Apple cider", "Cranberries", "Orange", "Heavy cream", "Lime", "Tea", "Pineapple juice", "Apple juice", "Sugar", "Bitters"])
+
+ingredient1_description = w.Label('Pick your first ingredient:')
+ingredient1 = w.Dropdown(options=['Light rum', 'Gin', "Water", "Dark rum", "Scotch", "Brandy", "Champagne", "Coffee", "Bourbon",
+"Kahlua", "Grenadine", "Coffee liqueur", "Tequila", "Vodka", "Bitters", "Apple brandy", "Rum", "Milk",'7-Up', "Grapefruit juice", "Sprite", "Cider", "Lemonade", "Lemon", "Egg", "Grape juice", "Cranberry juice", "Apple cider", "Cranberries", "Orange", "Heavy cream", "Lime", "Tea", "Pineapple juice", "Apple juice", "Sugar", "Bitters"])
+ingredient2_description = w.Label('Pick your second ingredient:')
+ingredient2 = w.Dropdown(options=['Light rum', 'Gin', "Water", "Dark rum", "Scotch", "Brandy", "Champagne", "Coffee", "Bourbon",
+"Kahlua", "Grenadine", "Coffee liqueur", "Tequila", "Vodka", "Bitters", "Apple brandy", "Rum", "Milk",'7-Up', "Grapefruit juice", "Sprite", "Cider", "Lemonade", "Lemon", "Egg", "Grape juice", "Cranberry juice", "Apple cider", "Cranberries", "Orange", "Heavy cream", "Lime", "Tea", "Pineapple juice", "Apple juice", "Sugar", "Bitters"])
+
+playbutton = w.Button(description="Click to search for Cocktails")
+playbutton1 = w.Button(description = "Click to search for Cocktails")
+
+searchoutput1 = w.Output()
+with searchoutput1:
+  display(glass_description, glass)
+  display(alcoholic_description, alcoholic)
+  display(ingredient1_description, total_ingredients)
+  display(playbutton1)
+
+searchoutput = w.Output()
+with searchoutput:
+  display(glass_description, glass)
+  display(alcoholic_description, alcoholic)
+  display(ingredient1_description, ingredient1)
+  display(ingredient2_description, ingredient2)
+  display(playbutton)
+
+labeloutput = w.Output()
+labeloutput1 = w.Output()
+
+canvas = w.Output()
+with canvas:
+  display(instruction_tab1)
+  display(searchoutput1)
+  display(labeloutput1)
+
+canvas_1 = w.Output()
+with canvas_1:
+  display(searchoutput)
+  display(labeloutput)
+
+popular_description = w.Label(" If you don't have any ideas about what to choose, we can generate one from our popular drink list")
+playbutton2 = w.Button(description = 'Click to get drink')
+labeloutput2 = w.Output()
+
+canvas_2 = w.Output()
+with canvas_2:
+   display(popular_description)
+   display(playbutton2)
+   display(labeloutput2)
+
+
+def apisearch1(change):
+    labeloutput1.clear_output(wait=True)
+    site1 = 'https://www.thecocktaildb.com/api/json/v2/9973533/filter.php'
+
+    glass_type = glass.value
+    parameter1 = {'g': glass_type}
+    r1 = requests.get(site1, parameter1)
+    r_dict1 = r1.json()
+
+    alcoholic_type = alcoholic.value
+    parameter3 = {'a': alcoholic_type}
+    r3 = requests.get(site1,parameter3)
+    r_dict3 = r3.json()
+
+    ingredient_type = total_ingredients.value
+    parameter4 = {'i':ingredient_type}
+    r4 = requests.get(site1,parameter4)
+    r_dict4 = r4.json()
+
+    drinklist = []
+
+    for drink1 in r_dict1['drinks']:
+       drink1_name = drink1['strDrink']
+       for drink3 in r_dict3['drinks']:
+        drink3_name = drink3['strDrink']
+        if drink1_name == drink3_name:
+            if r_dict4['drinks']=="None Found":
+               drink_list1=[]
+            else:
+              for drink4 in r_dict4['drinks']:
+                  drink4_name = drink4['strDrink']
+                  if drink1_name == drink4_name:
+                      drinklist.append(drink1_name)
+
+    if len(drinklist) != 0:
+      random_pick = random.choice(drinklist)
+      result = w.Label(value = f"The drink we pick for you is {random_pick}")
+
+      site2 = 'https://www.thecocktaildb.com/api/json/v2/9973533/search.php'
+      parameter = {'s':random_pick}
+      r = requests.get(site2,parameter)
+      r_dict = r.json()
+      if r_dict['drinks']:
+        instruction = w.Label(value = f"instructions:{r_dict['drinks'][0]['strInstructions']}")
+        image = disp.Image(url=r_dict['drinks'][0]['strDrinkThumb'], width=250)
+        with labeloutput1:
+           display(image)
+
+      else:
+        instruction = w.Label(value = f"Sorry, could not find instructions")
+    else:
+      result = w.Label(value = f"Sorry, no drinks match your criteria")
+      instruction = w.Label(value = f"no instructions in this case")
+    with labeloutput1:
+      display(result.value)
+      display(instruction.value)
+
+
+playbutton1.on_click(apisearch1)
+
+def apisearch(change):
+    labeloutput.clear_output(wait=True)
+    site1 = 'https://www.thecocktaildb.com/api/json/v2/9973533/filter.php'
+
+    glass_type = glass.value
+    parameter1 = {'g': glass_type}
+    r1 = requests.get(site1, parameter1)
+    r_dict1 = r1.json()
+
+    alcoholic_type = alcoholic.value
+    parameter3 = {'a': alcoholic_type}
+    r3 = requests.get(site1,parameter3)
+    r_dict3 = r3.json()
+
+    ingredient1_type = ingredient1.value
+    ingredient2_type = ingredient2.value
+    ingredient = f'{ingredient1_type},{ingredient2_type}'
+    ingredient_type = ingredient
+    parameter4 = {'i':ingredient_type}
+
+    r4 = requests.get(site1,parameter4)
+    r_dict4 = r4.json()
+
+    drink_list1 = []
+    for drink1 in r_dict1['drinks']:
+       drink1_name = drink1['strDrink']
+       for drink3 in r_dict3['drinks']:
+        drink3_name = drink3['strDrink']
+        if drink1_name == drink3_name:
+            if r_dict4['drinks']=="None Found":
+               drink_list1=[]
+            else:
+              for drink4 in r_dict4['drinks']:
+                  drink4_name = drink4['strDrink']
+                  if drink1_name == drink4_name:
+                      drink_list1.append(drink1_name)
+
+    if len(drink_list1) != 0:
+      random_pick = random.choice(drink_list1)
+      result = w.Label(value = f"The drink we pick for you is {random_pick}")
+
+      site2 = 'https://www.thecocktaildb.com/api/json/v2/9973533/search.php'
+      parameter = {'s':random_pick}
+      r = requests.get(site2,parameter)
+      r_dict = r.json()
+      if r_dict['drinks']:
+        instruction = w.Label(value = f"instructions:{r_dict['drinks'][0]['strInstructions']}")
+        image = disp.Image(url=r_dict['drinks'][0]['strDrinkThumb'], width=250)
+        with labeloutput:
+           display(image)
+
+      else:
+        instruction = w.Label(value = f"Sorry, could not find instructions")
+    else:
+      result = w.Label(value = f"Sorry, no drinks match your criteria")
+      instruction = w.Label(value = f"no instructions in this case")
+    with labeloutput:
+      display(result.value)
+      display(instruction.value)
+
+
+playbutton.on_click(apisearch)
+
+def apipopular(change):
+   labeloutput.clear_output(wait=True)
+   labeloutput2.clear_output(wait=True)
+   site3 = 'https://www.thecocktaildb.com/api/json/v2/9973533/randomselection.php'
+   r3 = requests.get(site3)
+   r_dict = r3.json()
+   random_popular = random.choice(r_dict['drinks'])
+   random_name = w.Label(value = f"We pick {random_popular['strDrink']} for you")
+   random_instruction = w.Label(value = f"instructions:{random_popular['strInstructions']}")
+   random_image = disp.Image(url=random_popular['strDrinkThumb'],width=250)
+   with labeloutput2:
+      display(random_image)
+
+   with labeloutput2:
+      display(random_name.value)
+      display(random_instruction.value)
+
+playbutton2.on_click(apipopular)
+
+
+tab = w.Tab()
+tab.children = (canvas,canvas_1,canvas_2)
+tab.set_title(0,'One Ingredient DIY')
+tab.set_title(1,'Two Ingredients DIY')
+tab.set_title(2,'Drink on popular list')
+
+tab
