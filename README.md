@@ -5,7 +5,7 @@ This Google Colab app lets users discover and explore cocktails by choosing ingr
 ## 💻 How to Use It
 
 ### Open in binder
-Click below to launch the notebook in Google Colab (no setup required):
+Click below to launch the notebook in binder (no setup required):
 [![Binder](https://mybinder.org/badge_logo.svg)](https://mybinder.org/v2/gh/tw584/Alcohol_DIY_Generator_Project/main?labpath=drink%20DIY%20%26%20AB%20testing.ipynb)
 
 
@@ -63,17 +63,12 @@ Click below to launch the notebook in Google Colab (no setup required):
   - Requests
   - Matplotlib / Seaborn
   - Pandas
-
 ---
 
-## 🚀 Try It Live
-- All interaction happens inside Colab — no local setup or Python knowledge required.
-- Just run each cell (Shift + Enter), and use the tab interface at the top.
-
----
 
 ## 📂 Files
 - `cocktail_tab.ipynb`: main interactive notebook
+- 'requirements.txt': all the required package
 - `README.md`: usage guide
 
 ---
