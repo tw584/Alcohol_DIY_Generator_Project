@@ -14,13 +14,6 @@ This Google Colab app lets users discover and explore cocktails by choosing ingr
 
 ## 💻 How to Use It
 
-### 1. Open in Google Colab
-Click below to launch the notebook in Google Colab (no setup required):
-
-[![Open in Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/your-username/your-repo/blob/main/your-notebook.ipynb)
-
----
-
 ## 🧪 App Features & Tabs
 
 ### Tab 1: One Ingredient DIY
