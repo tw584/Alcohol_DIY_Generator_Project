@@ -4,15 +4,10 @@ This Google Colab app lets users discover and explore cocktails by choosing ingr
 
 ## 💻 How to Use It
 
-### 1. Open in Google Colab
+### Open in binder
 Click below to launch the notebook in Google Colab (no setup required):
 [![Binder](https://mybinder.org/badge_logo.svg)](https://mybinder.org/v2/gh/tw584/Alcohol_DIY_Generator_Project/main?labpath=drink%20DIY%20%26%20AB%20testing.ipynb)
 
-# DIY Cocktail Tab 🍹
-
-This Google Colab app lets users discover and explore cocktails by choosing ingredients, comparing drink options, and getting personalized recommendations based on A/B testing. It's built with Python, interactive widgets (`ipywidgets`), and TheCocktailDB API.
-
-## 💻 How to Use It
 
 ## 🧪 App Features & Tabs
 
