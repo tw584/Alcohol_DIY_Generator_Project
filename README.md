@@ -1,4 +1,7 @@
 # Alcohol_Picker_API
+
+[![Binder](https://mybinder.org/badge_logo.svg)](https://mybinder.org/v2/gh/tw584/Alcohol_DIY_Generator_Project/HEAD?labpath=drink%20DIY%20%26%20AB%20testing.ipynb)
+
 The Cocktail DIY API Project is an interactive Python-based application designed to help users explore and create personalized cocktail recipes using TheCocktailDB API. With an easy-to-use interface powered by ipywidgets, this project provides a fun and dynamic way to discover cocktails tailored to individual preferences.
 
 Use Cases:
